@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1025286932452",
+    "project_id": "zomato-clone-93411",
+    "storage_bucket": "zomato-clone-93411.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025286932452:android:e833dd25ca9781d588e9f1",
+        "android_client_info": {
+          "package_name": "com.riteshapps.zomatoclone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcobgUoZoD6suFytYUfH4WTMI_1gNq5hE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
