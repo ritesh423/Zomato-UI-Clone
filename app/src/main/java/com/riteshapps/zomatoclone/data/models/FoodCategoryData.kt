@@ -6,10 +6,10 @@ data class FoodCategoryData(
 )
 
 data class TabItem(
-    val title : String
+    val title: String
 )
 
 data class FoodCategory(
     val name: String,
-    val imageRes : Int
+    val imageRes: Int
 )

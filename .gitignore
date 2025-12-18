@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+.gradle/
+build/
+*/build/
+.idea/
+*.apk
+*.aab
