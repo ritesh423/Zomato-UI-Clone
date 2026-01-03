@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.IconButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.riteshapps.zomatoclone.R
+import com.riteshapps.zomatoclone.presentation.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,8 +48,8 @@ fun TopAppBarDiningScreen(scrollBehavior: TopAppBarScrollBehavior, navController
                 ) {
                     Text(
                         text = "Home",
-                        fontSize = 20.dp,
                         color = contentColor,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Icon(
@@ -67,11 +70,29 @@ fun TopAppBarDiningScreen(scrollBehavior: TopAppBarScrollBehavior, navController
         },
         navigationIcon = {
             Icon(
-                painter = painterResource()
+                painter = painterResource(
+                    id = R.drawable.locationdeliveryscreen
+                ),
+                modifier = Modifier.size(30.dp),
+                tint = contentColor,
+                contentDescription = "Location"
             )
-        }
-    ) {
-        //Going to do something
-    }
-
+        },
+        actions = {
+            IconButton(onClick = {
+                navController.navigate(Routes.ProfileScreen)
+            }) {
+                Icon(
+                    painter = painterResource(id = R.drawable.profile),
+                    tint = contentColor,
+                    contentDescription = "Profile"
+                )
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent
+        ),
+        scrollBehavior = scrollBehavior,
+        modifier = Modifier.fillMaxWidth()
+    )
 }
