@@ -1,35 +1,41 @@
+package com.riteshapps.zomatoclone.presentation.navigation
+
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -41,26 +47,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
-import com.example.bottombar.AnimatedBottomBar
+import androidx.navigation.toRoute
 import com.riteshapps.zomatoclone.R
-import com.riteshapps.zomatoclone.presentation.navigation.Routes
-import com.riteshapps.zomatoclone.presentation.navigation.SubNavigation
-import com.riteshapps.zomatoclone.presentation.screens.DeliveryScreen
-import com.riteshapps.zomatoclone.presentation.screens.DiningScreen
-import com.riteshapps.zomatoclone.presentation.screens.LoginScreen
-import com.riteshapps.zomatoclone.presentation.screens.ProfileScreen
-import com.riteshapps.zomatoclone.presentation.screens.QuickScreen
-import com.riteshapps.zomatoclone.presentation.screens.SignUpScreen
+import com.riteshapps.zomatoclone.presentation.screens.*
+import com.riteshapps.zomatoclone.presentation.viewmodel.CartViewModel
+import com.riteshapps.zomatoclone.ui.theme.ZomatoRed
 
 data class BottomNavItem(
     val title: String,
@@ -70,11 +71,12 @@ data class BottomNavItem(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
-    isVisible: Boolean,
-    listState: LazyListState
+    isVisible: Boolean = true,
+    listState: LazyListState = rememberLazyListState()
 ) {
-
     val navController = rememberNavController()
+    val cartViewModel: CartViewModel = hiltViewModel()
+    val cartItemCount by cartViewModel.cartItemCount.collectAsState()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination?.route
@@ -86,9 +88,7 @@ fun App(
     LaunchedEffect(currentDestination) {
         shouldShowBottomBar = when (currentDestination) {
             Routes.DeliveryScreen::class.qualifiedName,
-            Routes.QuickScreen::class.qualifiedName,
             Routes.DiningScreen::class.qualifiedName -> true
-
             else -> false
         }
     }
@@ -103,130 +103,109 @@ fun App(
             icon = painterResource(R.drawable.delivery_cart)
         ),
         BottomNavItem(
-            title = "Quick",
-            icon = painterResource(R.drawable.quick_icon)
-        ),
-        BottomNavItem(
             title = "Dining",
             icon = painterResource(R.drawable.dining)
         )
     )
 
-    val selectedColor = colorResource(R.color.purple_500)
+    val selectedColor = ZomatoRed
 
     val bottomBarHeight by animateDpAsState(
-        targetValue = if (isVisible) 64.dp else 0.dp
+        targetValue = if (isVisible) 70.dp else 0.dp,
+        label = "bottomBarHeight"
     )
-
-    var startScreen = if (true) {
-        SubNavigation.LoginSignUpScreen
-    } else {
-        SubNavigation.MainHomeScreen
-    }
 
     Scaffold(
         bottomBar = {
             AnimatedVisibility(
                 modifier = Modifier
-                    .padding(
-                        WindowInsets.navigationBars
-                            .only(WindowInsetsSides.Bottom)
-                            .asPaddingValues()
-                    )
-                    .fillMaxWidth()
-                    .height(bottomBarHeight),
+                    .fillMaxWidth(),
                 visible = shouldShowBottomBar,
                 enter = fadeIn() + slideInVertically(initialOffsetY = { it }),
                 exit = fadeOut() + slideOutVertically(targetOffsetY = { it })
             ) {
-
-                Column(
+                Surface(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(bottomBarHeight)
-                        .background(Color.White)
+                        .fillMaxWidth(),
+                    shadowElevation = 12.dp,
+                    color = Color.White
                 ) {
-
-                    Row(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(3.dp)
-                            .background(Color.LightGray.copy(alpha = 0.2f))
-                    ) {
-                        BottomNavItems.forEachIndexed { index, _ ->
-                            Box(
-                                modifier = Modifier
-                                    .padding(horizontal = 10.dp)
-                                    .weight(1f)
-                                    .height(3.dp)
-                                    .clip(shape = RoundedCornerShape(100.dp))
-                                    .background(
-                                        if (index == selectedItemIndex)
-                                            selectedColor
-                                        else
-                                            Color.Transparent
-                                    )
+                            .padding(
+                                WindowInsets.navigationBars
+                                    .only(WindowInsetsSides.Bottom)
+                                    .asPaddingValues()
                             )
-                        }
-                    }
-
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White),
-                        shadowElevation = 8.dp
                     ) {
-
-                        AnimatedBottomBar(
-                            containerColor = Color.White,
-                            animationSpec = spring(
-                                dampingRatio = 1f,
-                                stiffness = Spring.StiffnessMediumLow
-                            )
+                        // Top indicator bar
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(3.dp)
                         ) {
-
-                            BottomNavItems.forEachIndexed { index, item ->
-
-                                NavigationBarItem(
-                                    modifier = Modifier.align(alignment = Alignment.Top),
-                                    selected = selectedItemIndex == index,
-                                    onClick = {
-                                        selectedItemIndex = index
-                                        when (selectedItemIndex) {
-                                            0 -> navController.navigate(Routes.DeliveryScreen)
-                                            1 -> navController.navigate(Routes.QuickScreen)
-                                            2 -> navController.navigate(Routes.DiningScreen)
-                                        }
-                                    },
-                                    label = {
-                                        if (index == selectedItemIndex) {
-                                            Text(
-                                                text = item.title,
-                                                color = selectedColor,
-                                                fontSize = 16.sp
-                                            )
-                                        } else {
-                                            Text(
-                                                text = item.title,
-                                                color = Color.Gray,
-                                                fontSize = 16.sp
-                                            )
-                                        }
-                                    },
-                                    icon = {
-                                        Icon(
-                                            painter = item.icon,
-                                            contentDescription = item.title,
-                                            tint = if (index == selectedItemIndex)
-                                                selectedColor
-                                            else
-                                                Color.Gray
+                            BottomNavItems.forEachIndexed { index, _ ->
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(3.dp)
+                                        .padding(horizontal = 24.dp)
+                                        .clip(RoundedCornerShape(bottomStart = 3.dp, bottomEnd = 3.dp))
+                                        .background(
+                                            if (index == selectedItemIndex) selectedColor
+                                            else Color.Transparent
                                         )
-                                    },
-                                    colors = NavigationBarItemDefaults.colors(
-                                        indicatorColor = Color.Transparent
-                                    )
                                 )
+                            }
+                        }
+
+                        // Navigation items
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(64.dp),
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            BottomNavItems.forEachIndexed { index, item ->
+                                val isSelected = selectedItemIndex == index
+                                
+                                Column(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxHeight()
+                                        .clickable(
+                                            interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() },
+                                            indication = null
+                                        ) {
+                                            selectedItemIndex = index
+                                            when (index) {
+                                                0 -> navController.navigate(Routes.DeliveryScreen) {
+                                                    popUpTo(Routes.DeliveryScreen) { inclusive = true }
+                                                }
+                                                1 -> navController.navigate(Routes.DiningScreen) {
+                                                    popUpTo(Routes.DeliveryScreen)
+                                                }
+                                            }
+                                        },
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Icon(
+                                        painter = item.icon,
+                                        contentDescription = item.title,
+                                        modifier = Modifier.size(26.dp),
+                                        tint = if (isSelected) selectedColor else Color.Gray
+                                    )
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = item.title,
+                                        fontSize = 12.sp,
+                                        fontWeight = if (isSelected) androidx.compose.ui.text.font.FontWeight.Bold else androidx.compose.ui.text.font.FontWeight.Normal,
+                                        color = if (isSelected) selectedColor else Color.Gray
+                                    )
+                                }
                             }
                         }
                     }
@@ -242,43 +221,108 @@ fun App(
 
             NavHost(
                 navController = navController,
-                startDestination = startScreen
+                startDestination = Routes.SplashScreen
             ) {
+                // Splash Screen
+                composable<Routes.SplashScreen> {
+                    SplashScreen(navController = navController)
+                }
 
-                navigation<SubNavigation.LoginSignUpScreen>(
-                    startDestination = Routes.LoginScreen,
+                // Auth Graph
+                navigation<SubNavigation.AuthGraph>(
+                    startDestination = Routes.LoginScreen
                 ) {
+                    composable<Routes.OnboardingScreen> {
+                        OnboardingScreen(navController = navController)
+                    }
+
                     composable<Routes.LoginScreen> {
-                        LoginScreen(
-                            navController = navController
-                        )
+                        LoginScreen(navController = navController)
                     }
 
                     composable<Routes.SignUpScreen> {
-                        SignUpScreen(
-                            navController = navController
-                        )
+                        SignUpScreen(navController = navController)
+                    }
+
+                    composable<Routes.ForgotPasswordScreen> {
+                        ForgotPasswordScreen(navController = navController)
                     }
                 }
 
+                // Main Home Graph
                 navigation<SubNavigation.MainHomeScreen>(
                     startDestination = Routes.DeliveryScreen
                 ) {
-
                     composable<Routes.DeliveryScreen> {
-                        DeliveryScreen(navController, listState)
+                        DeliveryScreen(
+                            navController = navController,
+                            listState = listState,
+                            cartViewModel = cartViewModel
+                        )
                     }
 
                     composable<Routes.QuickScreen> {
-                        QuickScreen(navController, listState)
+                        QuickScreen(navController = navController, listState = listState)
                     }
 
                     composable<Routes.DiningScreen> {
-                        DiningScreen(navController, listState)
+                        DiningScreen(navController = navController, listState = listState)
                     }
 
                     composable<Routes.ProfileScreen> {
-                        ProfileScreen(navController)
+                        ProfileScreen(navController = navController)
+                    }
+
+                    composable<Routes.EditProfileScreen> {
+                        EditProfileScreen(navController = navController)
+                    }
+
+                    composable<Routes.RestaurantDetailScreen> { backStackEntry ->
+                        val args = backStackEntry.toRoute<Routes.RestaurantDetailScreen>()
+                        RestaurantDetailScreen(
+                            restaurantId = args.restaurantId,
+                            navController = navController,
+                            cartViewModel = cartViewModel
+                        )
+                    }
+
+                    composable<Routes.CartScreen> {
+                        CartScreen(
+                            navController = navController,
+                            cartViewModel = cartViewModel
+                        )
+                    }
+
+                    composable<Routes.CheckoutScreen> {
+                        CheckoutScreen(
+                            navController = navController,
+                            cartViewModel = cartViewModel
+                        )
+                    }
+
+                    composable<Routes.OrderSuccessScreen> {
+                        OrderSuccessScreen(navController = navController)
+                    }
+
+                    composable<Routes.OrdersScreen> {
+                        OrdersScreen(navController = navController)
+                    }
+
+                    composable<Routes.WishlistScreen> {
+                        WishlistScreen(navController = navController)
+                    }
+
+                    composable<Routes.SearchBarScreen> {
+                        SearchBarScreen(navController = navController)
+                    }
+                }
+
+                // Admin Graph
+                navigation<SubNavigation.AdminGraph>(
+                    startDestination = Routes.AdminDashboard
+                ) {
+                    composable<Routes.AdminDashboard> {
+                        AdminDashboardScreen(navController = navController)
                     }
                 }
             }

@@ -1,3 +1,129 @@
 <resources>
     <string name="app_name">Zomato Clone</string>
+    
+    <!-- Auth Screens -->
+    <string name="login">Log in</string>
+    <string name="signup">Create Account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="full_name">Full Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="continue_btn">Continue</string>
+    <string name="create_account">Create an account</string>
+    <string name="already_have_account">Already have an account?</string>
+    <string name="new_here">New here?</string>
+    
+    <!-- Home Screen -->
+    <string name="delivering_to">Delivering to</string>
+    <string name="search_hint">Search for restaurants, cuisines</string>
+    <string name="whats_on_mind">What\'s on your mind?</string>
+    <string name="top_restaurants">Top restaurant chains</string>
+    <string name="all_restaurants">All restaurants</string>
+    <string name="order_again">Order again</string>
+    
+    <!-- Restaurant Detail -->
+    <string name="menu">Menu</string>
+    <string name="reviews">Reviews</string>
+    <string name="add">ADD</string>
+    <string name="bestseller">Bestseller</string>
+    
+    <!-- Cart -->
+    <string name="cart">Cart</string>
+    <string name="empty_cart">Your cart is empty</string>
+    <string name="add_items">Add items to get started</string>
+    <string name="add_more_items">Add more items</string>
+    <string name="apply_coupon">Apply coupon</string>
+    <string name="bill_details">Bill Details</string>
+    <string name="item_total">Item Total</string>
+    <string name="delivery_fee">Delivery Fee</string>
+    <string name="gst">GST (5%)</string>
+    <string name="discount">Discount</string>
+    <string name="grand_total">Grand Total</string>
+    <string name="proceed_to_pay">Proceed to Pay</string>
+    
+    <!-- Checkout -->
+    <string name="checkout">Checkout</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="place_order">Place Order</string>
+    <string name="add_new_address">Add New Address</string>
+    <string name="cod">Cash on Delivery</string>
+    <string name="upi">UPI</string>
+    <string name="card">Debit/Credit Card</string>
+    
+    <!-- Orders -->
+    <string name="my_orders">My Orders</string>
+    <string name="no_orders">No orders yet</string>
+    <string name="reorder">Reorder</string>
+    <string name="rate">Rate</string>
+    
+    <!-- Order Success -->
+    <string name="order_placed">Order Placed!</string>
+    <string name="delivery_estimate">Estimated delivery: 30–45 mins</string>
+    <string name="go_to_orders">Go to Orders</string>
+    <string name="back_to_home">Back to Home</string>
+    
+    <!-- Profile -->
+    <string name="profile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="saved_addresses">Saved Addresses</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="help_support">Help &amp; Support</string>
+    <string name="about">About</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="logout">Logout</string>
+    <string name="save_changes">Save Changes</string>
+    
+    <!-- Wishlist -->
+    <string name="empty_wishlist">Your wishlist is empty</string>
+    <string name="explore_restaurants">Explore Restaurants</string>
+    
+    <!-- Search -->
+    <string name="recent_searches">Recent Searches</string>
+    <string name="popular_cuisines">Popular Cuisines</string>
+    <string name="no_results">No results found</string>
+    <string name="filters">Filters</string>
+    <string name="veg_only">Veg Only</string>
+    <string name="rating">Rating</string>
+    <string name="delivery_time">Delivery Time</string>
+    <string name="apply">Apply</string>
+    <string name="clear_all">Clear All</string>
+    
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">Order from your favourite restaurants</string>
+    <string name="onboarding_subtitle_1">Browse through thousands of restaurants and cuisines near you</string>
+    <string name="onboarding_title_2">Track your order in real-time</string>
+    <string name="onboarding_subtitle_2">Know exactly when your food will arrive with live tracking</string>
+    <string name="onboarding_title_3">Fast delivery at your doorstep</string>
+    <string name="onboarding_subtitle_3">Get your food delivered hot and fresh in minutes</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="get_started">Get Started</string>
+    
+    <!-- Splash -->
+    <string name="tagline">Discover the best food &amp; drinks</string>
+    
+    <!-- Admin -->
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="total_orders">Total Orders</string>
+    <string name="revenue">Revenue</string>
+    <string name="restaurants">Restaurants</string>
+    <string name="users">Users</string>
+    <string name="recent_orders">Recent Orders</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="manage_restaurants">Manage Restaurants</string>
+    <string name="manage_menu">Manage Menu</string>
+    <string name="manage_banners">Manage Banners</string>
+    <string name="manage_users">Manage Users</string>
+    
+    <!-- Common -->
+    <string name="retry">Retry</string>
+    <string name="error">Error</string>
+    <string name="loading">Loading…</string>
+    <string name="see_all">See All</string>
+    <string name="view_cart">View Cart</string>
+    <string name="items">items</string>
+    <string name="item">item</string>
 </resources>
