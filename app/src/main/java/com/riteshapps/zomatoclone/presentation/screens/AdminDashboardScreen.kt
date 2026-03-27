@@ -89,7 +89,7 @@ fun AdminDashboardScreen(
                     containerColor = MaterialTheme.colorScheme.background
                 )
             )
-        }
+        } 
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
